@@ -1,35 +1,10 @@
 services:
-  server:
+  app:
     build:
       context: .
-    image: congthanh2k4/nodejs
+      dockerfile: Dockerfile
+    image: congthanh2k4/tool_lab-node
+    container_name: tool_lab_app
     ports:
-      - 8080:8080
-    environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/congthanh2k4_db
-      - SPRING_DATASOURCE_USERNAME=root
-      - SPRING_DATASOURCE_PASSWORD=
-      - SPRING_JPA_DATABASE_PLATFORM=org.hibernate.dialect.MySQLDialect
-    depends_on:
-      db:
-        condition: service_healthy
-
-  db:
-    image: mysql:8.0
-    restart: always
-    environment:
-      - MYSQL_DATABASE=congthanh2k4_db
-      - MYSQL_ROOT_PASSWORD=
-      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
-    ports:
-      - 3307:3306
-    volumes:
-      - mysql_data:/var/lib/mysql
-    healthcheck:
-      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-
-volumes:
-  mysql_data:
+      - "3000:3000"
+    restart: unless-stopped
